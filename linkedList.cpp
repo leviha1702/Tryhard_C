@@ -2,12 +2,11 @@
 #include<stdlib.h>
 struct  Node
 {
-    float data;
+    int data;
     struct Node *next;
 };
 typedef struct Node * node;
 //hàm nhập danh sách đầu
-/*
 node nhapDS_First(node &head,int x){
     node newNode;
     do{
@@ -22,27 +21,12 @@ node nhapDS_First(node &head,int x){
     } while (x!=0);
     return head;
 } 
-*/
-Node *nhapDS_First(Node *&dau){
-	int x;
-	Node *New;
-	do{
-		printf("nhap 1 so nguyen(0:dung)");
-		scanf("%d",&x);
-		if(x!=0){
-			New=(Node*)malloc(sizeof(Node));
-			New->data=x;
-			New->next=dau;
-			dau=New;
-		}
-	}while(x!=0);
-	return dau;
-}
+
 //in ra dslk đã nhập
-void printfList(Node *dau){
-	while(dau != NULL){
-		printf("%d ",dau->data);
-		dau=dau->next;
+void printfList(Node *head){
+	while(head != NULL){
+		printf("%d ",head->data);
+		head=head->next;
 	}
 }
 // cấp phát động một node mới với dữ liệu số nguyên x
@@ -55,10 +39,8 @@ node makeNode(int x){
 int main(){
     int x, index;
     Node * head= NULL;    
-    nhapDS_First(head);
+    nhapDS_First(head,x);
     printf("Danh sach da nhap la:");
     printfList(head);
-
-
 }
 
