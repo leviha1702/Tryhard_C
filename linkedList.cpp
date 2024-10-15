@@ -36,11 +36,23 @@ node makeNode(int x){
     temp->next=NULL;
     return temp;
 }
+// thêm phần tử đầu
+void insertFirst(node head,int x){
+    node temp= makeNode(x);
+    if(head ==NULL) head=temp;
+    else{
+        temp->next=head;
+        head=temp;
+    }
+}
 int main(){
     int x, index;
     Node * head= NULL;    
     nhapDS_First(head,x);
     printf("Danh sach da nhap la:");
+    printfList(head);
+    insertFirst(head,3);
+    printf("\nDanh sach sau khi them:");
     printfList(head);
 }
 
