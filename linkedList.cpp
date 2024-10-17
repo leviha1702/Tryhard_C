@@ -72,11 +72,46 @@ void insertMiddle(node &head,int x,int pos){
     }
     node temp = makeNode(x);
     node p=head;
-    for (size_t i = 1; i < pos-1; i++){
+    for (int i = 1; i < pos-1; i++){
         p=p->next;
     }
     temp->next=p->next;
     p->next=temp;
+}
+// xóa phần tử ở đầu
+void deleteFirst(node &head){
+    if(head==NULL) return;
+    else{
+        head=head->next;
+    }
+}
+//xóa phần tử ở cuối
+void deleteLast(node &head){
+    if(head==NULL) return;
+    node truoc=NULL;
+    node sau=head;
+    while(sau->next!=NULL){
+        truoc=sau;
+        sau=sau->next;
+    }
+    if (truoc==NULL)
+    {
+        head=NULL;
+    }else truoc->next=NULL;
+}
+//xóa phần tử giữa
+void deleteMiddle(node &head,int pos){
+     if (pos<=0||pos>sizeof(head)) return;
+     node truoc=NULL;
+     node sau=head;
+     for(int i=1;i<pos;i++){
+        truoc=sau;
+        sau=sau->next;
+     }
+     if (truoc==NULL)
+    {
+        head=head->next;
+    }else truoc->next=sau->next;
 }
 int main(){
     int x, index;
@@ -86,11 +121,17 @@ int main(){
     printf("Danh sach da nhap la:");
     printfList(head);
     //chèn vị trí bất kì
-    int pos,a;
+    int pos1,a;
     printf("\nNhap gia tri va vi tri chen:");
-    scanf("%d %d",&a,&pos);
-    insertMiddle(head,a,pos);
+    scanf("%d %d",&a,&pos1);
+    insertMiddle(head,a,pos1);
     printf("dslk vua chen:");
+    printfList(head);
+    int pos2;
+    printf("\nNhap vi tri xoa :");
+    scanf("%d",&pos2);
+    deleteMiddle(head,pos2);
+    printf("/ndanh sach lien ket sau khi xoa:");
     printfList(head);
 }
 
