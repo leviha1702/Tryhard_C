@@ -127,6 +127,7 @@ int main(){
     insertMiddle(head,a,pos1);
     printf("dslk vua chen:");
     printfList(head);
+    // xóa vị trí bất kì
     int pos2;
     printf("\nNhap vi tri xoa :");
     scanf("%d",&pos2);
