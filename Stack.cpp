@@ -62,6 +62,14 @@ void nhapStack(stackType &s){
 		push(s,value);
 	}
 }
+//hàm lấy phần tử đầu mà không xóa phần tử
+int view(stackType s,int *x){
+	if(s->top==-1) return 0;
+	else{
+		*x=s->a[s->top];
+		return 1;
+	}
+}
 int main(){
 	int x;
 	stackType s;
