@@ -1,6 +1,46 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define MAX 100
+// nhap day so va ghi vao file"DaySo.inp"
+void nhapDaySo(int n){
+	FILE *f = fopen("DaySo.inp","w");
+	if(f==NULL){
+		printf(	"khong the mo file.\n");
+	return;
+	}
+	printf("nhap so luong phan tu cua day so:");
+	scanf("%d",&n);
+	int num;
+	for(int i=0;i<n;i++){
+		printf("nhap so nguyen thu %d:",i+1);
+		scanf("%d",&num);
+		fprintf(f,"%d",num);
+	}
+	fclose(f);
+	printf("day so da duoc ghi vao file 'DaySo.inp'.\n");
+}
+// tao ma tran va ghi vao file'MaTran.inp'
+void maTran(int n){
+	FILE *f = fopen("MaTran.inp","w");
+	if(f==NULL){
+		printf(	"khong the mo file.\n");
+		return;
+	}
+	do{
+		printf("nhap so phan tu cua ma tran:");
+		scanf("%d",&n);
+	}while(!(n>=2&&n<=30));
+	fprintf(f,"%d\n",n);//ghi n vào file
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			int num = rand() % 1000;
+			fprintf(f,"%6d",num);
+		}
+		fprintf(f,"\n");
+	}
+	fclose(f);
+	printf("ma tran da dc ghi vao file'MaTran'.inp.\n");
+}
 void readFile(int a[][MAX],int n){
 	FILE *f = fopen("MaTran.inp","r");
 	if(f==NULL){
@@ -57,9 +97,10 @@ void ketQua(int a[][MAX],int n){
 	fclose(f);
 	printf("da nhap ket qua trung binh cong va so lon nhat vao file");
 }
-
 int main(){
 	int a[MAX][MAX],n;
+    nhapDaySo(n);
+    maTran(n);
 	readFile(a,n);
 	ketQua(a,n);
 }
