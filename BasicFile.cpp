@@ -10,11 +10,12 @@ void nhapDaySo(int n){
 	}
 	printf("nhap so luong phan tu cua day so:");
 	scanf("%d",&n);
+	fprintf(f,"%d\n",n);
 	int num;
 	for(int i=0;i<n;i++){
 		printf("nhap so nguyen thu %d:",i+1);
 		scanf("%d",&num);
-		fprintf(f,"%d",num);
+		fprintf(f,"%d ",num);
 	}
 	fclose(f);
 	printf("day so da duoc ghi vao file 'DaySo.inp'.\n");
@@ -97,10 +98,59 @@ void ketQua(int a[][MAX],int n){
 	fclose(f);
 	printf("da nhap ket qua trung binh cong va so lon nhat vao file");
 }
+void readDaySo(int arr[],int &n){
+	FILE *f=fopen("DaySo.inp","r");
+	if(f==NULL) {
+		printf("khong the mo file!\n");
+		return;
+	}
+	fscanf(f,"%d",&n);
+	for(int i=0;i<n;i++){
+		fscanf(f,"%d ",&arr[i]);
+	}
+	fclose(f);
+}
+//cau b:ham xuat day so
+void printfDaySo(int arr[],int n){
+	printf("day so trong file 'DaySo.inp':");
+	for(int i=0;i<n;i++){
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+//cau c:
+//dem va tra ve so luong phần tử có giá trị x dùng vòng lặp;
+int count1(int a[],int n,int x){
+	int count=0;
+	for(int i=0;i<n;i++){
+		if(a[i]==x){
+			count++;
+		}
+	}
+	return count;
+}
+//dùng đệ quy;
+int count2(int a[],int n,int x){
+	if(n==0){
+		return 0;
+	}
+	return (a[n-1]==x)+ count2(a,n-1,x);
+}
 int main(){
 	int a[MAX][MAX],n;
     nhapDaySo(n);
     maTran(n);
 	readFile(a,n);
 	ketQua(a,n);
+	int arr[20];
+	//cau a;
+	readDaySo(arr,n);
+	//cau b;
+	printfDaySo(arr,n);
+	//cau c
+	int x;
+	printf("\nnhap gia tri cua x:");
+	scanf("%d",&x);
+	printf("(ham vong lap)so luong gia tri %d trong mang:%d\n",x,count1(arr,n,x));
+	printf("(ham de quy)so luong %d co trong mang:%d",x,count2(arr,n,x));
 }
