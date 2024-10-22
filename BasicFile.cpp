@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
-/*
 #define MAX 100
+/*
 // nhap day so va ghi vao file"DaySo.inp"
 void nhapDaySo(int n){
 	FILE *f = fopen("DaySo.inp","w");
@@ -136,7 +136,7 @@ int count2(int a[],int n,int x){
 		return 0;
 	}
 	return (a[n-1]==x)+ count2(a,n-1,x);
-}*/
+}
 // cau a: khai báo kiểu dữ liệu cấu trúc
 typedef struct{
 	char code[20];
@@ -167,6 +167,42 @@ void xuatDS(course hp[],int n){
 		printf("%s",hp[i].name);
 		printf("%d\n",hp[i].numCredit);
 	}
+}*/
+void outFile(int a[],int &n){
+	FILE *f=fopen("MangSoThuc.txt","r");
+	if(f==NULL){
+		printf("Khong mo duoc file!");
+		return;
+	}
+	//câub:đọc n số thực từ file và lưu vào mảng a
+	fscanf(f,"%d",&n);
+	for(int i=0;i<n;i++){
+		fscanf(f,"%d",&a[i]);
+	}
+	fclose(f);
+}
+//câu c:xuất mảng a ra màng hình
+void printfArr(int a[],int n){
+	printf("Mang so thuc trong file 'MangSoThuc.txt':\n");
+	for(int i=0;i<n;i++){
+		printf("%d ",a[i]);
+	}
+	printf("\n");
+}
+//câu d:tính tổng phần tử trong dãy số(vòng lặp)
+int sumArr(int a[],int n){
+	int sum=0;
+	for(int i=0;i<n;i++){
+		sum+=a[i];
+	}
+	return sum;
+}
+//tính tổng phần tử trong dãy số(đệ qui)
+int sumAr(int a[],int n){
+	if(n==1){
+		return a[0];
+	}
+	return a[n-1]+sumAr(a,n-1);
 }
 int main(){
 	/*
@@ -185,9 +221,15 @@ int main(){
 	printf("\nnhap gia tri cua x:");
 	scanf("%d",&x);
 	printf("(ham vong lap)so luong gia tri %d trong mang:%d\n",x,count1(arr,n,x));
-	printf("(ham de quy)so luong %d co trong mang:%d",x,count2(arr,n,x));*/
+	printf("(ham de quy)so luong %d co trong mang:%d",x,count2(arr,n,x));
 	int n;
 	course hp[100];
 	readFile(hp,n);
 	xuatDS(hp,n);
+	*/
+	int a[MAX],n;
+	outFile(a,n);
+	printfArr(a,n);
+	printf("tong day so trong mang(vong lap):%d\n",sumArr(a,n));
+	printf("tong de qui:%d",sumAr(a,n));
 }
