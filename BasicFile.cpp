@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+/*
 #define MAX 100
 // nhap day so va ghi vao file"DaySo.inp"
 void nhapDaySo(int n){
@@ -135,8 +136,40 @@ int count2(int a[],int n,int x){
 		return 0;
 	}
 	return (a[n-1]==x)+ count2(a,n-1,x);
+}*/
+// cau a: khai báo kiểu dữ liệu cấu trúc
+typedef struct{
+	char code[20];
+	char name[100];
+	int numCredit;
+}course;
+void readFile(course hp[],int &n){
+	FILE *f=fopen("HocPhan.txt","r");
+	if(f==NULL){
+		printf("khong the mo file'HocPhan.txt'");
+		return;
+	}
+	fscanf(f,"%d",&n);
+	for(int i=0;i<n;i++){
+		fscanf(f,"%s",hp[i].code);//đọc mã học phần
+		fgetc(f);//xuống dòng
+		fgets(hp[i].name,100,f);//đọc tên học phần 
+		fscanf(f,"%d",&hp[i].numCredit);//đọc số tín chỉ
+	}
+	fclose(f);
+}
+//câu d:xuất danh sách học phần
+void xuatDS(course hp[],int n){
+	printf("So hoc phan:%d\n",n);
+	printf("Danh sach cac hoc phan:\n");
+	for(int i=0;i<n;i++){
+		printf("%s\n",hp[i].code);
+		printf("%s",hp[i].name);
+		printf("%d\n",hp[i].numCredit);
+	}
 }
 int main(){
+	/*
 	int a[MAX][MAX],n;
     nhapDaySo(n);
     maTran(n);
@@ -152,5 +185,9 @@ int main(){
 	printf("\nnhap gia tri cua x:");
 	scanf("%d",&x);
 	printf("(ham vong lap)so luong gia tri %d trong mang:%d\n",x,count1(arr,n,x));
-	printf("(ham de quy)so luong %d co trong mang:%d",x,count2(arr,n,x));
+	printf("(ham de quy)so luong %d co trong mang:%d",x,count2(arr,n,x));*/
+	int n;
+	course hp[100];
+	readFile(hp,n);
+	xuatDS(hp,n);
 }
