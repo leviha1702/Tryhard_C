@@ -15,24 +15,23 @@ void writeBookIn(Book *book,int n){
 		printf("Khong the mo file de ghi\n");
 		return;
 	}
-	fprintf(f,"%d\n",n);
+	fwrite(book, sizeof(Book),n,f);
+	fclose(f);
+}
 // nhập sách vào file nhị phân Sach.inp
-	for(int i=1;i<=n;i++){
-		printf("nhap thong tin sach thu %d:\n",i);
+void nhapBook(Book*book,int n){
+	for(int i=0;i<n;i++){
+		printf("nhap thong tin sach thu %d:\n",i+1);
 		printf("Ten sach:");
-		scanf("%s",&book[i].name);
-		fprintf(f,"%s\n",book[i].name);
-		printf("Nhap ten tac gia:");
-		scanf("%s",&book[i].nameAuthor);
-		fprintf(f,"%s\n",book[i].nameAuthor);
+		fflush(stdin);
+		gets(book[i].name);
+		printf("Ten tac gia:");
+		gets(book[i].nameAuthor);
 		printf("Nhap nha xuat ban:");
-		scanf("%s",&book[i].publisher);
-		fprintf(f,"%s\n",book[i].publisher);
+		gets(book[i].publisher);
 		printf("Nhap nam xuat ban:");
 		scanf("%d",&book[i].year);
-		fprintf(f,"%d\n",book[i].year);
 	}
-	fclose(f);
 }
 // cau c: đọc và hiển thị thông tin sách thứ p
 void readBookP(int p,int n){
@@ -46,28 +45,29 @@ void readBookP(int p,int n){
 		fclose(f);
 		return;
 	}
-	Book *book;
+	Book book;
+	fseek(f,(p-1)*sizeof(Book),SEEK_SET);
+	fread(&book, sizeof(Book),1,f);
 	printf("Thong tin sach thu %d:\n",p);
-	printf("Ten sach");
-	fscanf(f,"%s",&book[p].name[50]);
-	printf("Ten tac gia:");
-	fscanf(f,"%s",&book[p].nameAuthor[20]);
-	printf("Nha xuat ban:");
-	fscanf(f,"%s",&book[p].publisher[20]);
-	printf("Nam xuat ban:");
-	fscanf(f,"%d",&book[p].year);
+	printf("Ten sach:%s\n",book.name);
+	printf("Ten tac gia:%s\n",book.nameAuthor);
+	printf("Nha xuat ban:%s\n",book.publisher);
+	printf("Nam xuat ban:%d\n",book.year);
 	fclose(f);
 }
 int main(){
+    Book *book;
 	int n,p;
 	while(n<2||n>=50){
 		printf("Nhap so luong sach:");
 		scanf("%d",&n);
 	}
-	Book *book = (Book*)malloc(n*sizeof(Book));
+	Book*book = (Book*)malloc(n*sizeof(Book));
+	nhapBook(book,n);
 	writeBookIn(book,n);
 	printf("Nhap so thu tu sach can doc:");
 	scanf("%d",&p);
 	readBookP(p,n);
+	free(book);
 	return 0;
 }
