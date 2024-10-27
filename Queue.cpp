@@ -69,6 +69,13 @@ void display(Queue *q){
         printf("\n");
     }
 }
+int view(Queue *q,int *x){
+    if (q->head==-1) return 0;
+    else{
+        *x=q->a[q->head];
+        return 1;
+    }
+}
 int main(){
     int x;
     Queue q;
