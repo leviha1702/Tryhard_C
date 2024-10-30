@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 struct  Node
 {
     int data;
@@ -113,6 +114,17 @@ void deleteMiddle(node &head,int pos){
         head=head->next;
     }else truoc->next=sau->next;
 }
+int findMinPossitive(node head){
+    int minPossitive=INT_MAX;
+    node temp=head;
+    while (temp!=NULL){
+        if(temp->data>0&&temp->data<minPossitive){
+            minPossitive=temp->data;
+            
+        }temp=temp->next;
+    }
+    return (minPossitive==INT_MAX) ?-1:minPossitive;
+}
 int main(){
     int x, index;
     Node * head= NULL; 
@@ -132,7 +144,10 @@ int main(){
     printf("\nNhap vi tri xoa :");
     scanf("%d",&pos2);
     deleteMiddle(head,pos2);
-    printf("/ndanh sach lien ket sau khi xoa:");
+    printf("\ndanh sach lien ket sau khi xoa:");
     printfList(head);
+    if(findMinPossitive(head)!=-1){
+        printf("\nso duong nho nhat trong danh sach lien ket:%d", findMinPossitive(head));
+    } else printf("\nkhông có so duong nho nhat");
 }
 
