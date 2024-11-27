@@ -11,12 +11,13 @@ void Init(stackType * s){
 	s->top=-1;
 }
 //thêm phần tử vào ngăn xếp
-void push(stackType *s,int x){
+int push(stackType *s,int x){
 	if (s->top==SIZE-1) printf("ngan xep da day!");
 	else {
 		s->top++;
 		s->a[s->top]=x;
 	}
+	return 0;
 }
 //lấy phần tử ra khỏi stack
 int pop(stackType *s,int *x){
@@ -73,5 +74,4 @@ int main(){
 	push(&s,3);
 	display(&s);
 	while(pop(&s,&x)==1) printf("%d ",x);
-	view(&s,&x);
 }

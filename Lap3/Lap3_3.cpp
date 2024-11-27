@@ -25,10 +25,11 @@ void xuatFile(int a[],int n,int s){
 }
 int n,s,a[MAX],solution[MAX];
 int found = 0 ;
-FILE *g;
+
 void backtrack(int i,int current_sum){
     if(current_sum==s){
         found=1;
+        FILE *g=fopen("ATM_out.out","w");
         for(int j =0; j<i;j++){
             if(solution[j]>0){
                 fprintf(g,"%d",solution[j]);
