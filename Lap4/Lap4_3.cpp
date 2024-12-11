@@ -1,56 +1,74 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-// Hàm tìm phần tử lớn nhất bằng kỹ thuật chia để trị
-int findMax(int arr[], int left, int right) {
-    if (left == right) {
-        return arr[left]; // Trường hợp cơ sở
-    }
+#define MAX_N 30
+#define INF 99999999
 
-    int mid = (left + right) / 2;
-    int maxLeft = findMax(arr, left, mid);
-    int maxRight = findMax(arr, mid + 1, right);
+int n, S, t[MAX_N], best_count = INF;
+int best_solution[MAX_N], current_solution[MAX_N];
 
-    return (maxLeft > maxRight) ? maxLeft : maxRight;
-}
-// Hàm đếm số lần xuất hiện của x trong mảng
-int countOccurrences(int arr[], int left, int right, int x) {
-    if (left == right) {
-        return (arr[left] == x) ? 1 : 0; // Trường hợp cơ sở
-    }
-
-    int mid = (left + right) / 2;
-    int countLeft = countOccurrences(arr, left, mid, x);
-    int countRight = countOccurrences(arr, mid + 1, right, x);
-
-    return countLeft + countRight;
-}
-// Hàm tìm phần tử xuất hiện nhiều nhất trong mảng
-int mostFrequent(int arr[], int n) {
-    int maxCount = 0;
-    int mostFreq = arr[0];
-
-    for (int i = 0; i < n; i++) {
-        int count = countOccurrences(arr, 0, n - 1, arr[i]);
-        if (count > maxCount) {
-            maxCount = count;
-            mostFreq = arr[i];
+// Hàm tính số tờ tiền tối thiểu cần thiết để trả số tiền còn lại
+int min_toi_toi(int remaining, int k) {
+    int max_t = 0;
+    for (int i = k; i < n; i++) {
+        if (t[i] > max_t) {
+            max_t = t[i];
         }
     }
+    return (remaining + max_t - 1) / max_t;  // Làm tròn lên số tờ cần thiết
+}
 
-    return mostFreq;
+// Hàm kiểm tra nhánh cận
+void branch_and_bound(int k, int current_sum, int count) {
+    if (current_sum > S) return; // Nếu số tiền vượt quá S thì không tiếp tục
+
+    if (current_sum == S) {  // Nếu đã tìm ra một cách trả đúng
+        if (count < best_count) {  // Nếu số tờ ít hơn cách hiện tại
+            best_count = count;
+            for (int i = 0; i < n; i++) {
+                best_solution[i] = current_solution[i];
+            }
+        }
+        return;
+    }
+
+    // Nếu không thể có được số tờ ít hơn, ta không mở rộng nhánh này
+    if (count + min_toi_toi(S - current_sum, k) >= best_count) {
+        return;
+    }
+
+    // Duyệt qua các nhánh (chọn hoặc không chọn tờ tiền t[k])
+    if (k < n) {
+        // Trường hợp không chọn tờ tiền t[k]
+        current_solution[k] = 0;
+        branch_and_bound(k + 1, current_sum, count);
+
+        // Trường hợp chọn tờ tiền t[k]
+        current_solution[k] = 1;
+        branch_and_bound(k + 1, current_sum + t[k], count + 1);
+    }
 }
 int main() {
-    int array[] = {3, 1, 9, 4, 7, 6};
-    int n = sizeof(array) / sizeof(array[0]);
+    FILE *inp = fopen("ATM.inp", "r");
+    FILE *out = fopen("ATM_out.out", "w");
 
-    int max = findMax(array, 0, n - 1);
-    printf("phan tu lon nhat: %d\n", max);
+    fscanf(inp, "%d %d", &n, &S);
+    for (int i = 0; i < n; i++) {
+        fscanf(inp, "%d", &t[i]);
+    }
 
-    int x = 9;
-    int count = countOccurrences(array, 0, n - 1, x);
-    printf("so lan xuat hien cua phan tu %d: %d\n", x, count);
+    branch_and_bound(0, 0, 0);
 
-    int result = mostFrequent(array, n);
-    printf("phan tu xuat hien nhieu nhat: %d\n", result);
+    if (best_count == INF) {
+        fprintf(out, "-1\n");
+    } else {
+        for (int i = 0; i < n; i++) {
+            fprintf(out, "%d ", best_solution[i]);
+        }
+        fprintf(out, "\n");
+    }
+
+    fclose(inp);
+    fclose(out);
     return 0;
 }
