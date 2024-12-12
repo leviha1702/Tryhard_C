@@ -1,6 +1,5 @@
 #include<stdio.h>
-#include<stdlib.h>
-#define MAX 100
+#define MAX 30
 
 int n;
 int maxc=10000;
@@ -10,7 +9,7 @@ int chuaxet[MAX];
 int sum=0;
 
 void readFile(){
-    FILE * f=fopen("Dulich.inp","r");
+    FILE * f=fopen("dulich.inp","r");
     if(f==NULL) return;
     fscanf(f,"%d\n",&n);
     for(int i=1;i<=n;i++){
@@ -19,13 +18,10 @@ void readFile(){
         }
         fscanf(f,"\n");
     }
-    for(int i=2;i<=n;i++){
-        chuaxet[i]=1;
-    }
     fclose(f);
 }
 void init(){
-    x[1]=1; chuaxet[1]=0;
+    x[1]=1;
     for(int i=2;i<=n;i++){
         chuaxet[i]=1;
     }
@@ -48,21 +44,21 @@ void printfMT(){
     }
 }
 void writeFile(){
-    FILE *f=fopen("Dulich.out","w");
+    FILE *f=fopen("dulich.out","w");
     if(f==NULL) return;
     fputs("TP1-> ", f);
     for(int i=2;i<=n;i++){
         fprintf(f,"TP%d-> ",x[i]);
-        fputs("TP1\n",f);
-        fprintf(f,"Tong chi phi la:%d",sum);
     }
+    fputs("TP1\n",f);
+    fprintf(f,"Tong chi phi la:%d",sum);
     fclose(f);
 }
 void Greedy(){
-    int i, xi,tot;
+    int i=1, xi,tot;
+    init();
     x[i]=1;
     chuaxet[1]=0;
-    i=1;
     while(i<n){
         i++;
         tot = maxc;
