@@ -32,28 +32,26 @@ void printList(node head){
         temp=temp->next;
     }
 }
-//đếm số kí tự 'A' có trong danh sách liên kết
-void countChar(node head){
-    int count=0;
-    if(head==NULL){
-        printf("danh sach lien ket rong");
-    }
+//tìm thứ tự cuối cùng của kí tự "A" trong danh sách liên kết
+void findLastA(node head){
+    int index=0,count=1;
+    if(head==NULL) return;
     node p=head;
-    while(p!=NULL){
+    while (p!=NULL)
+    {
         if(p->data=='A'){
-            count++;
+            index=count;
         }
         p=p->next;
+        count++;
     }
-    if(count!=0){
-        printf("\nco %d so ki tu 'A' trong danh sach",count);
-    }else{
-        printf("\nkhong co ki tu 'A'");
-    }
+    if(index!=0){
+        printf("vi tri cuoi cung cua ki tu 'A' trong danh sach :%d",index);
+    }else printf("\nkhong co ki tu 'A' trong danh sach lien ket");
 }
 int main(){
     node head=NULL;
     nhapFirst(head);
     printList(head);
-    countChar(head);
+    findLastA(head);
 }
